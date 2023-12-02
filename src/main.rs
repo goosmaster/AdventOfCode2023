@@ -10,6 +10,7 @@ fn main() {
 
     match input.trim() {
         "1-1" => day01::part1::main(),
+        "1-2" => day01::part2::main(),
         _ => println!("Invalid day-part combination")
     }
 
