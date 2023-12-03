@@ -1,27 +1,27 @@
 use std::fs;
 
 #[derive(Debug, PartialEq)]
-enum Color {
+pub enum Color {
     Red,
     Green,
     Blue,
 }
 
 #[derive(Debug, PartialEq)]
-struct Cube {
-    amount: u8,
-    color: Color,
+pub struct Cube {
+    pub(crate) amount: u8,
+    pub(crate) color: Color,
 }
 
 #[derive(Debug, PartialEq)]
-struct Set {
-    cubes: Vec<Cube>,
+pub struct Set {
+    pub(crate) cubes: Vec<Cube>,
 }
 
 #[derive(Debug, PartialEq)]
-struct Game {
-    id: u32,
-    sets: Vec<Set>,
+pub struct Game {
+    pub(crate) id: u32,
+    pub(crate) sets: Vec<Set>,
 }
 
 const MAX_RED_CUBES: u8 = 12;
@@ -59,7 +59,7 @@ pub fn main() {
     println!("The sum of all valid game IDs: {total}")
 }
 
-fn game_parser(games: &str) -> Vec<Game> {
+pub fn game_parser(games: &str) -> Vec<Game> {
     // "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green\nGame 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue"
     let games: Vec<&str> = games.split('\n').collect::<Vec<&str>>();
     let mut game: Vec<Game> = Vec::new();
