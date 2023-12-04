@@ -1,3 +1,5 @@
+#![allow(clippy::needless_return)]
+
 use std::fs;
 
 #[derive(Debug, PartialEq)]
@@ -40,12 +42,12 @@ pub fn main() {
 
         // if game is possible, add game id to total
         for set in game.sets {
-            if is_valid == false {
+            if !is_valid {
                 break;
             }
 
             for cube in set.cubes {
-                if cube_stays_within_const_limits(cube) == false {
+                if !cube_stays_within_const_limits(cube) {
                     is_valid = false;
                 }
             }
@@ -74,7 +76,7 @@ pub fn game_parser(games: &str) -> Vec<Game> {
 fn encode_game(game: &str) -> Game {
     let parts = game.split(':').collect::<Vec<&str>>();
 
-    let game_metadata = parts.iter().next().unwrap();
+    let game_metadata = parts.first().unwrap();
     let id = game_metadata.split(' ').collect::<Vec<&str>>().clone()
         .iter().next_back().unwrap().parse::<u32>().unwrap();
 
@@ -110,7 +112,7 @@ fn encode_cube(cube: &str) -> Cube {
         panic!("parts was not equal to two, something went wrong: '{cube}'")
     }
 
-    let amount: u8 = parts.clone().iter().next().unwrap().parse::<u8>().unwrap();
+    let amount: u8 = parts.clone().first().unwrap().parse::<u8>().unwrap();
     let color: Color = str_to_color(parts.clone().iter().next_back().unwrap()).unwrap();
 
     // input: "3 blue"
@@ -123,7 +125,6 @@ fn cube_stays_within_const_limits(cube: Cube) -> bool {
         Color::Red => cube.amount <= MAX_RED_CUBES,
         Color::Green => cube.amount <= MAX_GREEN_CUBES,
         Color::Blue => cube.amount <= MAX_BLUE_CUBES,
-        _ => false
     }
 }
 

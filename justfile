@@ -1,6 +1,5 @@
-work day:
-    cargo watch --clear -w src/{{day}} -x check -x test -x clippy
+work day part:
+    cargo watch --clear -w src/{{day}}/{{part}}.rs -s "cargo check --package advent_of_code_2023" -s "cargo clippy --package advent_of_code_2023" -s "cargo test {{day}} --package advent_of_code_2023"
+
 bench-all:
     cargo bench -q > benchmarks.txt
-bench day part:
-    cargo bench --bench {{day}} {{part}} >> {{day}}.bench.txt

@@ -1,3 +1,5 @@
+#![allow(clippy::needless_return)]
+
 use std::fs;
 use crate::day02::part1::{game_parser, Game, Set, Cube, Color};
 
@@ -41,7 +43,6 @@ fn fewest_cubes_necessary_for_sets(sets: Vec<Set>) -> Vec<Cube> {
                 Color::Red => { if cube.amount > necessary_red_cubes { necessary_red_cubes = cube.amount } }
                 Color::Green => { if cube.amount > necessary_green_cubes { necessary_green_cubes = cube.amount } }
                 Color::Blue => { if cube.amount > necessary_blue_cubes { necessary_blue_cubes = cube.amount } }
-                _ => {}
             }
         }
     }

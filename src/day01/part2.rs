@@ -1,5 +1,16 @@
 #![allow(clippy::needless_return)]
 
+// Todo: Solve bug...
+// The current implementation, correctly executes a string replace from left to right
+// The issue comes when (for example) "1twone" as input is given
+// Due to the l2r replacement, "two" gets priority above "one"
+// But! The solution requires the first and last valid number to count, so it should be "one" instead of "two"
+// Couple of instant work around come to mind:
+//      1. For each character, write a different parse order sequence, first -> l2r, last -> r2l
+//      2. Instead of replacing (and there by mutilating the input), instead return a vec of "found" numbers in order.
+//          then "just" simply take the first and last one.
+
+
 use std::fs;
 use std::ops::Add;
 
@@ -24,7 +35,7 @@ fn part2(input: &str) -> String {
         .collect::<Vec<_>>();
 
     for chars in vec {
-        if chars.clone().len() == 0 {
+        if chars.is_empty() {
             break;
         }
 
