@@ -1,12 +1,14 @@
 #![allow(clippy::needless_return)]
 
+use std::collections::BTreeMap;
 use std::fs;
 
 #[derive(Debug, PartialEq)]
 struct Card {
     card_id: u8,
     winning_numbers: Vec<u8>,
-    card_numbers: Vec<u8>
+    card_numbers: Vec<u8>,
+    wins: usize,
 }
 
 pub fn main() {
@@ -18,25 +20,34 @@ pub fn main() {
 
 fn part2(input: &str) -> String {
     let cards = get_cards(input);
-    let mut total: usize = 0;
-    let mut memory: Vec<u8> = Vec::new();
 
-    for card in cards {
-        // todo:
-        // Card 1 has four matching numbers, so you win one copy each of the next four cards: cards 2, 3, 4, and 5.
-        // Your original card 2 has two matching numbers, so you win one copy each of cards 3 and 4.
-        // Your copy of card 2 also wins one copy each of cards 3 and 4.
-        // Your four instances of card 3 (one original and three copies) have two matching numbers, so you win four copies each of cards 4 and 5.
-        // Your eight instances of card 4 (one original and seven copies) have one matching number, so you win eight copies of card 5.
-        // Your fourteen instances of card 5 (one original and thirteen copies) have no matching numbers and win no more cards.
-        // Your one instance of card 6 (one original) has no matching numbers and wins no more cards.
-        // let copies = copy_card_score(&card, &cards, how_many_copies_does_my_card_get(card));
+    let data = cards
+        .iter()
+        .map(|card: &Card| card.wins)
+        .collect::<Vec<usize>>();
 
-    }
+    let mem = (0..cards.len())
+        .map(|index| (index, 1))
+        .collect::<BTreeMap<usize, usize>>();
 
-    return total.to_string();
+    let result = data
+        .iter()
+        .enumerate()
+        .fold(mem, |mut acc, (index, score)| {
+            for i in (index + 1)..(index + 1 + *score) {
+                let score_to_add = *acc.get(&index).unwrap();
+                acc.entry(i).and_modify(|value| {
+                    *value += score_to_add;
+                });
+            }
+
+            return acc;
+        })
+        .values()
+        .sum::<usize>();
+
+    return result.to_string();
 }
-
 
 fn get_cards(input: &str) -> Vec<Card> {
     let mut cards: Vec<Card> = Vec::new();
@@ -47,11 +58,19 @@ fn get_cards(input: &str) -> Vec<Card> {
         let card_info = parts.first().unwrap().split(':').collect::<Vec<&str>>();
         let winning_numbers = parse_card_numbers(card_info.clone());
         let card_id = card_info.first().unwrap().split("Card").last().unwrap().trim().parse::<u8>().unwrap();
+        let mut wins: usize = 0;
+
+        for winning_number in &winning_numbers {
+            if card_numbers.contains(winning_number) {
+                wins += 1;
+            }
+        }
 
         cards.push(Card {
             card_id,
             winning_numbers,
             card_numbers,
+            wins,
         })
     }
 
@@ -62,18 +81,6 @@ fn parse_card_numbers(parts: Vec<&str>) -> Vec<u8> {
     return parts.last().unwrap().trim().split(' ')
         .filter(|s: &&str| !s.is_empty()).collect::<Vec<&str>>()
         .iter().map(|s: &&str| s.parse::<u8>().unwrap()).collect::<Vec<u8>>();
-}
-
-fn how_many_copies_does_my_card_get(card: Card) -> usize {
-    let mut copies: usize = 0;
-
-    for winning_number in card.winning_numbers {
-        if card.card_numbers.contains(&winning_number) {
-            copies += 1;
-        }
-    }
-
-    return copies;
 }
 
 #[cfg(test)]
@@ -103,19 +110,8 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
                 card_id: 1,
                 winning_numbers: vec![41, 48, 83, 86, 17],
                 card_numbers: vec![83, 86, 6, 31, 17, 9, 48, 53],
+                wins: 4
             },
         ], output);
-    }
-
-    #[test]
-    fn it_counts_the_given_copies_for_the_given_card() {
-        let input = Card{
-            card_id: 1,
-            winning_numbers: vec![41, 48, 83, 86, 17],
-            card_numbers: vec![83, 86, 6, 31, 17, 9, 48, 53],
-        };
-        let output = how_many_copies_does_my_card_get(input);
-
-        assert_eq!(4, output);
     }
 }

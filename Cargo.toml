@@ -16,7 +16,11 @@ path = "src/day04/part1.rs"
 
 [[bin]]
 name = "day05"
-path = "src/day05/part1.rs"
+path = "src/day05/src/part1.rs"
+
+[[bin]]
+name = "day06"
+path = "src/day06/src/part1.rs"
 
 [package]
 name = "advent_of_code_2023"
@@ -27,3 +31,4 @@ edition = "2021"
 
 [dependencies]
 cargo-watch = "8.4.1"
+rstest = "0.18.2"

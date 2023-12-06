@@ -3,7 +3,7 @@
 use std::fs;
 
 pub fn main() {
-    let input: String = fs::read_to_string("./inputs/day05/input.txt")
+    let input: String = fs::read_to_string("../../../inputs/day05/input.txt")
         .expect("Was not able to read, does the file exist?");
 
     println!("{}", part2(&input))
