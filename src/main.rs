@@ -10,6 +10,7 @@ mod day03;
 mod day04;
 // mod day05;
 mod day06;
+mod day07;
 
 fn main() {
     println!("[day]-[part] :");
@@ -29,6 +30,7 @@ fn main() {
         // "5-2" => day05::part2::main(),
         "6-1" => day06::src::part1::main(),
         "6-2" => day06::src::part2::main(),
+        "7-1" => day07::src::part1::main(),
         _ => println!("Invalid day-part combination")
     }
 }
