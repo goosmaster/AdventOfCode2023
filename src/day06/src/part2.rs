@@ -4,13 +4,13 @@ use std::collections::HashMap;
 use std::fs;
 
 pub fn main() {
-    let input: String = fs::read_to_string("./inputs/day06/part1.txt")
+    let input: String = fs::read_to_string("./inputs/day06/part2.txt")
         .expect("Was not able to read, does the file exist?");
 
-    println!("{}", part1(&input));
+    println!("{}", part2(&input));
 }
 
-fn part1(input: &str) -> String {
+fn part2(input: &str) -> String {
     let races = get_races(input);
     let mut totals: Vec<usize> = Vec::new();
 

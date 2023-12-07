@@ -16,7 +16,7 @@ mod map;
 mod util;
 
 pub fn main() {
-    let _input: String = fs::read_to_string("../../../inputs/day05/input.txt")
+    let _input: String = fs::read_to_string("../../../inputs/day05/part1.txt")
         .expect("Was not able to read, does the file exist?");
 
     // let tmp = parse_item(&input);
