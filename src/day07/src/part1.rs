@@ -1,5 +1,6 @@
 #![allow(clippy::needless_return)]
 
+use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::fs;
 
@@ -14,6 +15,13 @@ enum Hand {
     HighCard,
 }
 
+#[derive(Debug, PartialEq)]
+struct Card {
+    cards: String,
+    hand: Hand,
+    bid: i32,
+}
+
 pub fn main() {
     let input: String = fs::read_to_string("./inputs/day07/input.txt")
         .expect("Was not able to read, does the file exist?");
@@ -22,10 +30,41 @@ pub fn main() {
 }
 
 fn part1(input: &str) -> String {
-    todo!();
+    let cards = sort(input_to_cards(input));
+    let score = calculate_score(cards);
+
+    return score.to_string();
 }
 
-fn score_table(card: &char) -> u8 {
+fn calculate_score(cards: Vec<Card>) -> usize {
+    let mut total_winnings: usize = 0;
+    for (index, card) in cards.iter().enumerate() {
+        total_winnings += card.bid as usize * (index + 1);
+    }
+
+    return total_winnings;
+}
+
+fn input_to_cards(input: &str) -> Vec<Card> {
+    return input
+        .lines()
+        .map(|line| to_card(line))
+        .collect::<Vec<Card>>();
+}
+
+fn hand_score_table(hand: &Hand) -> u8 {
+    return match hand {
+        Hand::FiveOfAKind => 1,
+        Hand::FourOfAKind => 2,
+        Hand::FullHouse => 3,
+        Hand::ThreeOfAKind => 4,
+        Hand::TwoPair => 5,
+        Hand::OnePair => 6,
+        Hand::HighCard => 7,
+    }
+}
+
+fn card_score_table(card: &char) -> u8 {
     return match card {
         'A' => 1,
         'K' => 2,
@@ -49,8 +88,8 @@ fn determine_hand(hand: &str) -> Hand {
     let mut counts = HashMap::new();
 
     deck.sort_by(|a, b| {
-        score_table(a)
-            .partial_cmp(&score_table(b))
+        card_score_table(a)
+            .partial_cmp(&card_score_table(b))
             .unwrap()
     });
 
@@ -88,14 +127,46 @@ fn determine_hand(hand: &str) -> Hand {
     }
 }
 
-fn sort() {
-    // todo: generate vec of all hands
-    //      first section of hand 32T3K is hand and needs sorting
-    //          this is the only one pair
-    //      KK677 and KTJJT are both two pair. Their first cards both have the same label, but the second card of KK677 is stronger (K vs T), so KTJJT gets rank 2 and KK677 gets rank 3.
-    //      T55J5 and QQQJA are both three of a kind. QQQJA has a stronger first card, so it gets rank 5 and T55J5 gets rank 4.
+fn to_card(input: &str) -> Card {
+    let parts = input.split(' ').collect::<Vec<&str>>();
+    let cards = parts.first().unwrap().to_owned().to_string();
+    let bid = parts.last().unwrap().parse::<i32>().unwrap();
+    let hand = determine_hand(&cards);
 
-    todo!();
+    return Card {
+        cards,
+        hand,
+        bid,
+    }
+}
+
+fn sort(mut cards: Vec<Card>) -> Vec<Card> {
+    cards.sort_by(|a, b| {
+        if a.hand == b.hand {
+            let mut order: Ordering = Ordering::Equal;
+
+            for (i, card) in a.cards.chars().enumerate() {
+                let score_a = card_score_table(&(a.cards.as_bytes()[i] as char));
+                let score_b = card_score_table(&(b.cards.as_bytes()[i] as char));
+
+                if score_a < score_b {
+                    order = Ordering::Greater;
+                    break;
+                } else if score_a > score_b {
+                    order = Ordering::Less;
+                    break;
+                }
+            }
+
+            return order;
+        } else {
+            hand_score_table(&b.hand)
+                .partial_cmp(&hand_score_table(&a.hand))
+                .unwrap()
+        }
+    });
+
+    return cards;
 }
 
 #[cfg(test)]
@@ -103,15 +174,31 @@ mod tests {
     use rstest::rstest;
     use super::*;
 
-//     #[test]
-//     fn it_sorts_the_card_from_high_to_low() {
-//         let input = "32T3K 765
-// T55J5 684
-// KK677 28
-// KTJJT 220
-// QQQJA 483";
-//
-//     }
+    fn it_calculates_the_correct_total_bid_winnings() {
+        let input = input_to_cards("32T3K 765\nT55J5 684\nKK677 28\nKTJJT 220\nQQQJA 483");
+        let output = calculate_score(sort(input));
+
+        assert_eq!(6440, output);
+    }
+
+    #[test]
+    fn it_sorts_the_card_from_low_to_high() {
+        let input = input_to_cards("32T3K 765\nT55J5 684\nKK677 28\nKTJJT 220\nQQQJA 483");
+        let output = sort(input);
+
+        assert_eq!(vec![
+            // Rank 1 (so will be multiplied by 1)
+            Card { cards: "32T3K".to_string(), hand: Hand::OnePair, bid: 765, },
+            // Rank 2 (so will be multiplied by 2)
+            Card { cards: "KTJJT".to_string(), hand: Hand::TwoPair, bid: 220, },
+            // Rank 3 (so will be multiplied by 3)
+            Card { cards: "KK677".to_string(), hand: Hand::TwoPair, bid: 028, },
+            // Rank 4 (so will be multiplied by 4)
+            Card { cards: "T55J5".to_string(), hand: Hand::ThreeOfAKind, bid: 684, },
+            // Rank 5 (so will be multiplied by 5)
+            Card { cards: "QQQJA".to_string(), hand: Hand::ThreeOfAKind, bid: 483, },
+        ], output);
+    }
 
     #[rstest]
     #[case("AAAAA", Hand::FiveOfAKind)]
