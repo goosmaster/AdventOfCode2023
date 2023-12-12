@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use std::fs;
 
 pub fn main() {
-    let input: String = fs::read_to_string("./inputs/day06/part2.txt")
+    let input: String = fs::read_to_string("./inputs/WaitForIt/part2.txt")
         .expect("Was not able to read, does the file exist?");
 
     println!("{}", part2(&input));

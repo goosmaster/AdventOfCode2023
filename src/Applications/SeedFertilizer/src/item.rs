@@ -1,4 +1,4 @@
-use crate::item_type::ItemType;
+use crate::Applications::SeedFertilizer::src::item_type::ItemType;
 
 #[derive(Debug, PartialEq)]
 pub struct Item {

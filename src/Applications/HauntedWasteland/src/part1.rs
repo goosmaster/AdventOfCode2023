@@ -1,10 +1,10 @@
 #![allow(clippy::needless_return)]
 
 use std::fs;
-use crate::day08::src::DecissionPath::DecisionPath;
+use crate::HauntedWasteland::src::DecissionPath::DecisionPath;
 
 pub fn main() {
-    let input: String = fs::read_to_string("./inputs/day08/input.txt")
+    let input: String = fs::read_to_string("./inputs/HauntedWasteland/input.txt")
         .expect("Was not able to read, does the file exist?");
 
     println!("{}", part1(&input));

@@ -1,7 +1,7 @@
 #![allow(clippy::needless_return)]
 
 use std::fs;
-use crate::day02::part1::{game_parser, Game, Set, Cube, Color};
+use crate::CubeConundrum::part1::{game_parser, Game, Set, Cube, Color};
 
 pub fn main() {
     let input: String = fs::read_to_string("./inputs/day02/input.txt")

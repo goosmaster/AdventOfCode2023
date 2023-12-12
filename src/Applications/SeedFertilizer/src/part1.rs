@@ -5,18 +5,13 @@
 use rstest::rstest;
 
 use std::fs;
-use item::Item;
-use item_type::ItemType;
-use map::Map;
-use crate::util::get_sub_str;
-
-mod item;
-mod item_type;
-mod map;
-mod util;
+use crate::Applications::SeedFertilizer::src::item::Item;
+use crate::Applications::SeedFertilizer::src::item_type::ItemType;
+use crate::Applications::SeedFertilizer::src::map::Map;
+use crate::Applications::SeedFertilizer::src::util::get_sub_str;
 
 pub fn main() {
-    let _input: String = fs::read_to_string("../../../inputs/day05/part1.txt")
+    let _input: String = fs::read_to_string("../../../inputs/SeedFertilizer/part1.txt")
         .expect("Was not able to read, does the file exist?");
 
     // let tmp = parse_item(&input);

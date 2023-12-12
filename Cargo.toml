@@ -1,35 +1,34 @@
 [[bin]]
-name = "day01"
-path = "src/day01/part1.rs"
+name = "Trebuchet"
+path = "src/Applications/Trebuchet/part1.rs"
 
 [[bin]]
-name = "day02"
-path = "src/day02/part1.rs"
+name = "CubeConundrum"
+path = "src/Applications/CubeConundrum/part1.rs"
 
 [[bin]]
-name = "day03"
-path = "src/day03/part1.rs"
+name = "GearRatios"
+path = "src/Applications/GearRatios/part1.rs"
 
 [[bin]]
-name = "day04"
-path = "src/day04/part1.rs"
+name = "Scratchcards"
+path = "src/Applications/Scratchcards/part1.rs"
 
 [[bin]]
-name = "day05"
-path = "src/day05/src/part1.rs"
+name = "SeedFertilizer"
+path = "src/Applications/SeedFertilizer/src/part1.rs"
 
 [[bin]]
-name = "day06"
-path = "src/day06/src/part1.rs"
+name = "WaitForIt"
+path = "src/Applications/WaitForIt/src/part1.rs"
 
 [[bin]]
-name = "day07"
-path = "src/day07/src/part1.rs"
-
+name = "CamelCards"
+path = "src/Applications/CamelCards/src/part1.rs"
 
 [[bin]]
-name = "day08"
-path = "src/day08/src/part1.rs"
+name = "HauntedWasteland"
+path = "src/Applications/HauntedWasteland/src/part1.rs"
 
 [package]
 name = "advent_of_code_2023"
