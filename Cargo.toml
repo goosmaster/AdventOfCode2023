@@ -26,6 +26,11 @@ path = "src/day06/src/part1.rs"
 name = "day07"
 path = "src/day07/src/part1.rs"
 
+
+[[bin]]
+name = "day08"
+path = "src/day08/src/part1.rs"
+
 [package]
 name = "advent_of_code_2023"
 version = "0.1.0"

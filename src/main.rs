@@ -2,18 +2,34 @@
 
 extern crate core;
 
-use std::io::stdin;
+use std::fs;
+use std::io::{Error, stdin};
 mod common;
 mod day01;
 mod day02;
 mod day03;
 mod day04;
 // mod day05;
-mod day06;
+// mod day06;
 mod day07;
+mod day08;
 
 fn main() {
-    println!("[day]-[part] :");
+    // if running in --interactive
+    let pattern = std::env::args().collect::<Vec<String>>();
+
+    if pattern.contains(&"--interactive".to_string()) || pattern.contains(&"-i".to_string()) {
+        interactive();
+    }
+}
+
+fn interactive() {
+    match fs::read_to_string("./Assets/tree.txt") {
+        Ok(tree) => println!("{}", tree.replace("\\x1b", "\u{1b}")),
+        Err(e) => {},
+    };
+
+    println!("[day]-[part]:");
     let mut input = String::new();
     stdin().read_line(&mut input).expect("Failed to read line");
 
@@ -28,9 +44,12 @@ fn main() {
         "4-2" => day04::part2::main(),
         // "5-1" => day05::part1::main(),
         // "5-2" => day05::part2::main(),
-        "6-1" => day06::src::part1::main(),
-        "6-2" => day06::src::part2::main(),
+        // "6-1" => day06::src::part1::main(),
+        // "6-2" => day06::src::part2::main(),
         "7-1" => day07::src::part1::main(),
+        // "7-2" => day07::src::part2::main(),
+        "8-1" => day08::src::part1::main(),
+        // "8-2" => day08::src::part2::main(),
         _ => println!("Invalid day-part combination")
     }
 }
