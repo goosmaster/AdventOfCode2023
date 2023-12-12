@@ -1,2 +1,3 @@
-pub mod part1;
-pub mod part2;
+mod part1;
+mod part2;
+pub mod main;
