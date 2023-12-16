@@ -1,4 +1,5 @@
 #![allow(clippy::needless_return)]
+#![feature(test)]
 
 extern crate core;
 

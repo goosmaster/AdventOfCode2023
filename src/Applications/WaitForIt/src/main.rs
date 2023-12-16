@@ -1,3 +1,5 @@
+#![feature(test)]
+
 use advent_of_code_2023::common::Types::part::Part;
 use crate::Applications::WaitForIt;
 

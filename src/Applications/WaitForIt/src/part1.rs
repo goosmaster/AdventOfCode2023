@@ -82,15 +82,7 @@ mod tests {
 
     use std::collections::HashMap;
     use rstest::rstest;
-    use test::Bencher;
     use super::*;
-
-    static BENCH_SIZE: usize = 50;
-
-    #[bench]
-    fn bench_it_parses_input_into_num_strategies_available(b: &mut Bencher) {
-        b.iter(|| part1("Time:      7  15   30\nDistance:  9  40  200"));
-    }
 
     #[rstest]
     #[case(7, 9, 4)]
