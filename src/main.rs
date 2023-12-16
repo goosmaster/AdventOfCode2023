@@ -31,6 +31,7 @@ fn main() {
         "6-1" => day06::src::part1::main(),
         "6-2" => day06::src::part2::main(),
         "7-1" => day07::src::part1::main(),
+        "7-2" => day07::src::part2::main(),
         _ => println!("Invalid day-part combination")
     }
 }

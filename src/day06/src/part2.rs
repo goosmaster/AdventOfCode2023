@@ -117,7 +117,7 @@ mod tests {
     #[test]
     fn it_parses_input_into_num_strategies_available() {
         let input = "Time:      7  15   30\nDistance:  9  40  200";
-        let output = part1(input);
+        let output = part2(input);
 
         assert_eq!("288".to_string(), output)
     }
